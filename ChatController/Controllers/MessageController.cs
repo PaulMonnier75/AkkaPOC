@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Core.IAdapters.LeftSide;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChatController.Controllers
@@ -9,10 +6,17 @@ namespace ChatController.Controllers
     [Route("api/[controller]")]
     public class MessageController : Controller
     {
-        [HttpGet]
-        public IEnumerable<string> GetMessages()
+        private readonly IChatAdapter ChatAdapter;
+        
+        public MessageController(IChatAdapter chatAdapter)
+            => ChatAdapter = chatAdapter;
+        
+        [HttpGet("all")]
+        public OkResult GetMessages()
         {
-            return new string[] {"value1", "value2"};
+            ChatAdapter.RetriveMessage();
+            
+            return Ok();
         }
 
         [HttpPost]

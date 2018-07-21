@@ -1,39 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using ChatController.Adapters.LeftSide;
+using Core;
+using Core.IAdapters.LeftSide;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace ChatController
 {
     public class Startup
     {
+        private IContainer ApplicationContainer { get; set; }
+        private IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+            => Configuration = configuration;
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            ApplicationContainer = CreateAndRegisterDependencies(services);
+
+            return new AutofacServiceProvider(ApplicationContainer);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        private IContainer CreateAndRegisterDependencies(IServiceCollection services)
+        {
+            var builder = new ContainerBuilder();
+            
+            builder.Populate(services);
+            
+            builder.RegisterType<ChatAdapter>().As<IChatAdapter>();
+            builder.RegisterType<Core.Core>().As<ICore>().SingleInstance();
+
+            return builder.Build();
+        }
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
-
+            
             app.UseMvc();
         }
     }
