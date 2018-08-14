@@ -4,20 +4,22 @@ using Autofac.Extensions.DependencyInjection;
 using ChatController.Adapters.LeftSide;
 using Core;
 using Core.IAdapters.LeftSide;
+using Core.IAdapters.RightSide;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Plugins.Repositories;
 
 namespace ChatController
 {
     public class Startup
     {
         private IContainer ApplicationContainer { get; set; }
-        private IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
-            => Configuration = configuration;
+        {
+        }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
@@ -33,9 +35,12 @@ namespace ChatController
             var builder = new ContainerBuilder();
             
             builder.Populate(services);
+
+            builder.RegisterType<ChatRepository>().As<IChatRepositoryAdapter>();
             
             builder.RegisterType<ChatAdapter>().As<IChatAdapter>();
-            builder.RegisterType<Core.Core>().As<ICore>().SingleInstance();
+                      
+            builder.Register((c, p) => new Core.Core(c.Resolve<IChatRepositoryAdapter>())).As<ICore>().SingleInstance();
 
             return builder.Build();
         }

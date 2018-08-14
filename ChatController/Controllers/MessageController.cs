@@ -1,5 +1,7 @@
-﻿using Core.IAdapters.LeftSide;
+﻿using ChatController.Adapters.LeftSide;
+using Core.IAdapters.LeftSide;
 using Microsoft.AspNetCore.Mvc;
+using Plugins.Repositories;
 
 namespace ChatController.Controllers
 {
@@ -7,16 +9,16 @@ namespace ChatController.Controllers
     public class MessageController : Controller
     {
         private readonly IChatAdapter ChatAdapter;
-        
+
         public MessageController(IChatAdapter chatAdapter)
             => ChatAdapter = chatAdapter;
         
         [HttpGet("all")]
-        public OkResult GetMessages()
+        public IActionResult GetMessages()
         {
-            ChatAdapter.RetriveMessage();
+            var result = ChatAdapter.RetrieveMessages();
             
-            return Ok();
+            return Ok(result);
         }
 
         [HttpPost]
