@@ -38,10 +38,10 @@ namespace ChatController
 
             builder.RegisterType<ChatRepository>().As<IChatRepositoryAdapter>();
             
-            builder.RegisterType<ChatAdapter>().As<IChatAdapter>();
-                      
             builder.Register((c, p) => new Core.Core(c.Resolve<IChatRepositoryAdapter>())).As<ICore>().SingleInstance();
-
+      
+            builder.Register((c, p) => new ChatAdapter(c.Resolve<ICore>())).As<IChatAdapter>();
+                      
             return builder.Build();
         }
 

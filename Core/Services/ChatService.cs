@@ -16,20 +16,12 @@ namespace Core.Services
         
         public ChatService(IChatRepositoryAdapter repositoryAdapter)
         {
-            ChatRepositoryAdapter = ChatRepositoryAdapter;
+            ChatRepositoryAdapter = repositoryAdapter;
         }
 
         public List<ChatMessage> GetChatMessage()
         {
-            return new List<ChatMessage>()
-            {
-                new ChatMessage()
-                {
-                    Text = "TMP",
-                    UserName = "toto",
-                    TimeStamp = DateTimeOffset.UtcNow
-                }
-            };
+            return ChatRepositoryAdapter.GetAllMessages();            
         }
         
         
