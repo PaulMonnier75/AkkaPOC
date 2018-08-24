@@ -12,15 +12,15 @@ namespace Core.Actors
         
         public CommandHandlerActor()
         {
-            Receive<ChatCommand>(command => DelegateChatCommandToChildActo(command));
+            Receive<ChatCommand>(command => DelegateChatCommandToChildActor(command));
             ReceiveAny(message => Console.WriteLine("UnknownCommand"));
         }
 
-        private void DelegateChatCommandToChildActo(ChatCommand chatCommand)
+        private void DelegateChatCommandToChildActor(ChatCommand chatCommand)
         {
-            //var a = CreateChatActorIfNotExist("ChatActor");
-            var props = Context.DI().Props<ChatActor>();
-            var a = Context.ActorOf(props, "chatActor");
+            var a = CreateChatActorIfNotExist("ChatActor");
+            //var props = Context.DI().Props<ChatActor>();
+            //var a = Context.ActorOf(props, "chatActor");
             a.Tell(chatCommand);
         }
 

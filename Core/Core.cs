@@ -7,6 +7,7 @@ using Core.Actors;
 using Core.IAdapters.RightSide;
 using Core.Models;
 using Core.Services;
+using Microsoft.Extensions.Options;
 
 namespace Core
 {
@@ -16,22 +17,11 @@ namespace Core
     }
 
     public class Core : ICore
-    {
+    {        
         private readonly IActorRef CommandHandlerActorRef;
-        private readonly IChatRepositoryAdapter ChatRepositoryAdapter;
-
-        public Core(IChatRepositoryAdapter chatRepoAdapter)
-        {
-            ChatRepositoryAdapter = chatRepoAdapter;
-
-            var container = ConfigureDependyInjection();
-
-            var actorSystemReference = ActorSystem.Create("ActorSystem");
-
-            var resolver = new AutoFacDependencyResolver(container, actorSystemReference);
-
-            CommandHandlerActorRef = actorSystemReference.ActorOf(CommandHandlerActor.Props);
-        }
+        
+        public Core(IActorRefFactory actorSystem)
+            => CommandHandlerActorRef = actorSystem.ActorOf(CommandHandlerActor.Props);
 
         public Event HandleCommand(Command command)
         {
@@ -39,15 +29,20 @@ namespace Core
 
             return new MessageRetrieved(new List<ChatMessage>());
         }
+        
+        public static void ConfigureIoc(ContainerBuilder builder)
+        {
+            builder.Register((c, p) => new ChatService(c.Resolve<IChatRepositoryAdapter>()))
+                .As<IChatService>().SingleInstance();
+            
+            builder.Register((c, p) => new LuisService(c.Resolve<LuisSecrets>()))
+                .As<ILuisService>().SingleInstance();
 
-        private IContainer ConfigureDependyInjection()
-        {       
-            var builder = new ContainerBuilder();
-
-            builder.Register((c, p) => new ChatService(ChatRepositoryAdapter)).As<IChatService>().SingleInstance();
-            builder.RegisterType<ChatActor>();
-
-            return builder.Build();
+            builder.RegisterType<ChatActor>().SingleInstance();
         }
+
+        public static void Resolver(IContainer container, ActorSystem actorSystem)
+            => new AutoFacDependencyResolver(container, actorSystem);
+     
     }
 }

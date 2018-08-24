@@ -16,8 +16,6 @@ namespace ChatController.Adapters.LeftSide
             => (Core.HandleCommand(new RetrieveMessageCommand()) as MessageRetrieved)?.Messages;
 
         public void SendMessage(ChatMessage msg)
-        {
-            throw new System.NotImplementedException();
-        }
+            => Core.HandleCommand(new SendMessageCommand(msg));
     }
 }

@@ -22,8 +22,6 @@ namespace Core.Services
         public List<ChatMessage> GetChatMessage()
         {
             return ChatRepositoryAdapter.GetAllMessages();            
-        }
-        
-        
+        }       
     }
 }

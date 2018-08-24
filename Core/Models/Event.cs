@@ -12,4 +12,12 @@ namespace Core.Models
         public MessageRetrieved(IEnumerable<ChatMessage> messages)
             => Messages = messages.ToList();
     } 
+    
+    public class MessageSent : Event
+    {
+        public string Response;
+
+        public MessageSent(string response)
+            => Response = response;
+    } 
 }
