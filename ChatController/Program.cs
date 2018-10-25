@@ -12,7 +12,6 @@ namespace ChatController
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsecrets.json", optional: false, reloadOnChange: true)
                 .Build();
 
             BuildWebHost(args, configuration).Run();

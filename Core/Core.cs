@@ -1,13 +1,8 @@
-﻿using System.Collections.Generic;
-using Akka.Actor;
+﻿using Akka.Actor;
 using Akka.DI.AutoFac;
-using Akka.DI.Core;
 using Autofac;
 using Core.Actors;
-using Core.IAdapters.RightSide;
 using Core.Models;
-using Core.Services;
-using Microsoft.Extensions.Options;
 
 namespace Core
 {
@@ -27,22 +22,18 @@ namespace Core
         {
             CommandHandlerActorRef.Tell(command);
 
-            return new MessageRetrieved(new List<ChatMessage>());
+            // Mes commandes n'ont pas besoin de renvoyer quelque chose pour le moment
+            return null;
         }
         
         public static void ConfigureIoc(ContainerBuilder builder)
         {
-            builder.Register((c, p) => new ChatService(c.Resolve<IChatRepositoryAdapter>()))
-                .As<IChatService>().SingleInstance();
-            
-            builder.Register((c, p) => new LuisService(c.Resolve<LuisSecrets>()))
-                .As<ILuisService>().SingleInstance();
-
-            builder.RegisterType<ChatActor>().SingleInstance();
+            builder.RegisterType<HomeAutomationActor>().SingleInstance();
+            builder.RegisterType<ThermostatActor>().SingleInstance();
+            builder.RegisterType<MediaActor>().SingleInstance();
         }
 
         public static void Resolver(IContainer container, ActorSystem actorSystem)
-            => new AutoFacDependencyResolver(container, actorSystem);
-     
+            => new AutoFacDependencyResolver(container, actorSystem);   
     }
 }

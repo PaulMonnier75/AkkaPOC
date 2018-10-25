@@ -3,22 +3,53 @@
     public abstract class Command
     {
         public CommandPriority Priority = CommandPriority.Medium;
+    }      
+    
+    public abstract class MediaCommand : Command { }
+
+    public abstract class HomeAutomationCommand : Command { }
+
+    
+    public class ChangeLightStatusCommand : HomeAutomationCommand
+    {          
+        public bool LightStatus { get; }
+
+        public ChangeLightStatusCommand(bool status)
+        {
+            LightStatus = status;
+        }
+    }
+
+    public class SetTemperatureCommand : HomeAutomationCommand
+    {
+        public double FahrenheitTemperature { get; }
+        
+        public SetTemperatureCommand(double fahrenheitTemperature)
+        {
+            FahrenheitTemperature = fahrenheitTemperature;
+        }
     }
     
-    public abstract class ChatCommand : Command { }
-
-    public class RetrieveMessageCommand : ChatCommand
+    
+    public class PlayMovieCommand : MediaCommand
     {        
-        public RetrieveMessageCommand() { }
+        public PlayMovieCommand()
+        {
+        }
+    }
+    
+    public class PauseMovieCommand : MediaCommand
+    {        
+        public PauseMovieCommand()
+        {
+        }
     }
 
-    public class SendMessageCommand : ChatCommand
+    public class CastMovieCommand : MediaCommand
     {
-        public ChatMessage Message { get; set; }
-        
-        public SendMessageCommand(ChatMessage message)
-        {
-            Message = message;
-        }
+        public string UrlToCast { get; }
+
+        public CastMovieCommand(string url)
+            => UrlToCast = url;
     }
 }

@@ -1,21 +1,14 @@
 ﻿using System;
-using System.ComponentModel;
 using Akka.Actor;
-using Akka.Util.Internal;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using ChatController.Adapters.LeftSide;
 using Core;
 using Core.IAdapters.LeftSide;
-using Core.IAdapters.RightSide;
-using Core.Models;
-using Core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Plugins.Repositories;
 using IContainer = Autofac.IContainer;
 
 namespace ChatController
@@ -44,15 +37,14 @@ namespace ChatController
             var builder = new ContainerBuilder();            
             
             builder.Populate(services);
-            builder.RegisterType<ChatRepository>().As<IChatRepositoryAdapter>();
-            builder.RegisterInstance(GetLuisSecrets());
             
             Core.Core.ConfigureIoc(builder);
 
             var actorSystem = ActorSystem.Create("ActorSystem");
 
             builder.Register((c, p) => new Core.Core(actorSystem)).As<ICore>().SingleInstance();
-            builder.Register((c, p) => new ChatAdapter(c.Resolve<ICore>())).As<IChatAdapter>();
+            builder.Register((c, p) => new MediaAdapter(c.Resolve<ICore>())).As<IMediaAdapter>();
+            builder.Register((c, p) => new HomeAutomationAdapterAdapter(c.Resolve<ICore>())).As<IHomeAutomationAdapter>();
 
             var container = builder.Build();
             
@@ -68,14 +60,5 @@ namespace ChatController
 
             app.UseMvc();
         }
-
-        private LuisSecrets GetLuisSecrets()
-        {
-            var luisConfig = new LuisSecrets();
-            
-            Configuration.GetSection("Luis").Bind(luisConfig);
-
-            return luisConfig;
-        }      
     }
 }
