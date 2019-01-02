@@ -2,16 +2,17 @@
 using Akka.Actor;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using ChatController.Adapters.LeftSide;
+using Controller.Adapters.LeftSide;
 using Core;
 using Core.IAdapters.LeftSide;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using IContainer = Autofac.IContainer;
 
-namespace ChatController
+namespace Controller
 {
     public class Startup
     {
@@ -39,8 +40,16 @@ namespace ChatController
             builder.Populate(services);
             
             Core.Core.ConfigureIoc(builder);
+            
+            var logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .MinimumLevel.Debug()
+                .CreateLogger();
 
-            var actorSystem = ActorSystem.Create("ActorSystem");
+            Log.Logger = logger;
+
+            var actorSystem = ActorSystem.Create("HomeActorSystem",
+                "akka { loglevel=DEBUG, loggers=[\"Akka.Logger.Serilog.SerilogLogger, Akka.Logger.Serilog\"]}");
 
             builder.Register((c, p) => new Core.Core(actorSystem)).As<ICore>().SingleInstance();
             builder.Register((c, p) => new MediaAdapter(c.Resolve<ICore>())).As<IMediaAdapter>();

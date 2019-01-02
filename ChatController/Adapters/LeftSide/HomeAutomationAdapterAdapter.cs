@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using Core;
+﻿using Core;
 using Core.IAdapters.LeftSide;
 using Core.Models;
 
-namespace ChatController.Adapters.LeftSide
+namespace Controller.Adapters.LeftSide
 {
     public class HomeAutomationAdapterAdapter : IHomeAutomationAdapter
     {

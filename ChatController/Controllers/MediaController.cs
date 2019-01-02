@@ -2,10 +2,10 @@
 using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ChatController.Controllers
+namespace Controller.Controllers
 {   
     [Route("api/[controller]")]
-    public class MediaController : Controller
+    public class MediaController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly IMediaAdapter MediaAdapter;
 

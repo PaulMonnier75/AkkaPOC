@@ -2,7 +2,7 @@
 using Core.IAdapters.LeftSide;
 using Core.Models;
 
-namespace ChatController.Adapters.LeftSide
+namespace Controller.Adapters.LeftSide
 {
     public class MediaAdapter : IMediaAdapter
     {

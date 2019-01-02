@@ -8,7 +8,7 @@ namespace Core
 {
     public interface ICore
     {
-        Event HandleCommand(Command command);
+        void HandleCommand(Command command);
     }
 
     public class Core : ICore
@@ -18,13 +18,8 @@ namespace Core
         public Core(IActorRefFactory actorSystem)
             => CommandHandlerActorRef = actorSystem.ActorOf(CommandHandlerActor.Props);
 
-        public Event HandleCommand(Command command)
-        {
-            CommandHandlerActorRef.Tell(command);
-
-            // Mes commandes n'ont pas besoin de renvoyer quelque chose pour le moment
-            return null;
-        }
+        public void HandleCommand(Command command)
+            => CommandHandlerActorRef.Tell(command);
         
         public static void ConfigureIoc(ContainerBuilder builder)
         {

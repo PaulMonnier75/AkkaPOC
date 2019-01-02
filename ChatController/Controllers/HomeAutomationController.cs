@@ -1,10 +1,10 @@
 ﻿using Core.IAdapters.LeftSide;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ChatController.Controllers
+namespace Controller.Controllers
 {
     [Route("api/[controller]")]
-    public class HomeAutomationController : Controller
+    public class HomeAutomationController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly IHomeAutomationAdapter HomeAutomationAdapter;
 
