@@ -31,7 +31,7 @@ namespace Controller.Controllers
         }
         
         [HttpPost("CastMedia")]
-        public IActionResult CastMedia([FromBody] CastRequestModel request)
+        public IActionResult CastMedia([FromBody] CastRequestParameter request)
         {
             MediaAdapter.CastMedia(request.UrlToCast);
             

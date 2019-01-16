@@ -26,6 +26,7 @@ namespace Core
             builder.RegisterType<HomeAutomationActor>().SingleInstance();
             builder.RegisterType<ThermostatActor>().SingleInstance();
             builder.RegisterType<MediaActor>().SingleInstance();
+            builder.RegisterType<LightActor>().SingleInstance();
         }
 
         public static void Resolver(IContainer container, ActorSystem actorSystem)

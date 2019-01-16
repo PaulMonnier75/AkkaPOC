@@ -1,4 +1,5 @@
-﻿using Core.IAdapters.LeftSide;
+﻿using Controller.Controllers.RequestParameterModels;
+using Core.IAdapters.LeftSide;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Controller.Controllers
@@ -14,17 +15,17 @@ namespace Controller.Controllers
         }
 
         [HttpPost("ChangeLightStatus")]
-        public IActionResult SetLightStatus([FromBody] bool shouldBeTurnedOn)
+        public IActionResult SetLightStatus([FromBody] HomeAutomationRequestParameters parameter)
         {
-            HomeAutomationAdapter.ChangeLightStatus(shouldBeTurnedOn);
+            HomeAutomationAdapter.ChangeLightStatus(parameter.ShouldBeTurnedOn);
 
             return Ok();
         }
 
         [HttpPost("SetTemperature")]
-        public IActionResult SetTemperature([FromBody] double fahrenheitTemperature)
+        public IActionResult SetTemperature([FromBody] SetTemperatureRequestParameter parameter)
         {
-            HomeAutomationAdapter.SetTemperature(fahrenheitTemperature);
+            HomeAutomationAdapter.SetTemperature(parameter.FahrenheitTemperature);
             
             return Ok();
         }

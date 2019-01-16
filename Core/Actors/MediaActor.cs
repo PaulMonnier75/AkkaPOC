@@ -31,7 +31,7 @@ namespace Core.Actors
         private void PauseMovie()
         {
             SetMediaPlayerStatus(true);
-            SendMessageToLoggerActor();
+
             if (IsMediaPaused)
                 Console.WriteLine("Media alreday Paused");
             else
@@ -39,20 +39,6 @@ namespace Core.Actors
         }
 
         private void CastMovie(string urlToCast)
-            => Console.WriteLine($"Call Chromecast API to cast the URL : {urlToCast}");
-
-        private void SendMessageToLoggerActor()
-        {
-            try
-            {
-                Context.ActorSelection("akka://HomeActorSystem/user/HomeAutomationActor").Tell(new ChangeLightStatusCommand(true));
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
+            => Console.WriteLine($"Call Chromecast API to cast the URL : {urlToCast}");        
     }
 }
