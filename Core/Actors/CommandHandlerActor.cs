@@ -15,7 +15,7 @@ namespace Core.Actors
             Receive<MediaCommand>(command => DelegateMediaCommandToChildActor(command));
             ReceiveAny(command => throw new Exception("Command Undefined"));
         }
-
+        
         private static void DelegateMediaCommandToChildActor(MediaCommand mediaCommand)
             => CreateMediaActorIfNotExist("MediaActor").Tell(mediaCommand);
 

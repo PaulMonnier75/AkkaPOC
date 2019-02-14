@@ -9,7 +9,7 @@
 
     public abstract class HomeAutomationCommand : Command { }
 
-    
+
     public class ChangeLightStatusCommand : HomeAutomationCommand
     {          
         public bool LightStatus { get; }
@@ -29,7 +29,6 @@
             FahrenheitTemperature = fahrenheitTemperature;
         }
     }
-    
     
     public class PlayMovieCommand : MediaCommand
     {        

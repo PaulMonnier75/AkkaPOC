@@ -1,10 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatController", "ChatController\ChatController.csproj", "{11F6D2CE-C662-40F6-944A-AAA48403168D}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeController", "ChatController\HomeController.csproj", "{11F6D2CE-C662-40F6-944A-AAA48403168D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Core\Domain.csproj", "{E8A942E7-83B7-43CE-A8B9-0C9CF2C19DC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Core\Domain.csproj", "{E8A942E7-83B7-43CE-A8B9-0C9CF2C19DC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins", "Plugins\Plugins.csproj", "{BF68C174-B80F-421F-8A67-51595A293673}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plugins", "Plugins\Plugins.csproj", "{BF68C174-B80F-421F-8A67-51595A293673}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +27,11 @@ Global
 		{BF68C174-B80F-421F-8A67-51595A293673}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF68C174-B80F-421F-8A67-51595A293673}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF68C174-B80F-421F-8A67-51595A293673}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {480ADEC1-9374-40C6-BDAE-43A969B10143}
 	EndGlobalSection
 EndGlobal
